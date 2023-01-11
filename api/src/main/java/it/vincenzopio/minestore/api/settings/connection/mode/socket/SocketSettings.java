@@ -2,13 +2,11 @@ package it.vincenzopio.minestore.api.settings.connection.mode.socket;
 
 public class SocketSettings {
 
-    private final int port;
-    private final String password;
+    private int port = 33066;
+    private String password = "socket_safe_password";
 
-    public SocketSettings(int port, String password) {
-        this.port = port;
-        this.password = password;
-    }
+    public SocketSettings() {}
+
 
     public int getPort() {
         return port;

@@ -1,17 +1,21 @@
 package it.vincenzopio.minestore.api.settings;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.vincenzopio.minestore.api.settings.connection.ConnectionSettings;
 import it.vincenzopio.minestore.api.settings.store.StoreSettings;
 
+
 public class PluginSettings {
 
-    private final StoreSettings storeSettings;
-    private final ConnectionSettings connectionSettings;
 
-    public PluginSettings(StoreSettings storeSettings, ConnectionSettings connectionSettings) {
-        this.storeSettings = storeSettings;
-        this.connectionSettings = connectionSettings;
-    }
+    @JsonProperty("store-api")
+    private StoreSettings storeSettings = new StoreSettings();
+    @JsonProperty("store-connection")
+    private ConnectionSettings connectionSettings = new ConnectionSettings();
+
+    public PluginSettings() {}
+
 
     public ConnectionSettings getConnectionSettings() {
         return connectionSettings;

@@ -1,16 +1,16 @@
 package it.vincenzopio.minestore.api.settings;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import it.vincenzopio.minestore.api.MineStore;
 import it.vincenzopio.minestore.api.service.Service;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 
 public class SettingsService extends Service {
 
-    private static final Yaml YAML = new Yaml();
+    public static final ObjectMapper MAPPER = new ObjectMapper(new YAMLFactory());
 
     private PluginSettings pluginSettings;
 
@@ -22,7 +22,7 @@ public class SettingsService extends Service {
     protected void onLoad() {
         File dataFolder = mineStore.getDataFolder();
 
-        if(!dataFolder.exists())
+        if (!dataFolder.exists())
             dataFolder.mkdirs();
 
 
@@ -30,17 +30,20 @@ public class SettingsService extends Service {
 
         try {
             if (!configFile.exists()) {
-                MineStore.LOGGER.info("No config file found, copying default.");
-                Files.copy(mineStore.getResource("config.yml"), configFile.toPath());
-                MineStore.LOGGER.info("Please setup your configuration file, then restart!");
-                mineStore.forceShutdown();
-
-                return;
+                 MineStore.LOGGER.info("No config file found, copying default.");
+                 Files.copy(mineStore.getResource("config.yml"), configFile.toPath());
+                 MineStore.LOGGER.info("Please setup your configuration file, then restart!");
+                 System.exit(0);
+                 return;
             }
 
-            pluginSettings = YAML.load(new FileInputStream(configFile));
+            MineStore.LOGGER.info("Loading configuration file...");
+
+            pluginSettings = MAPPER.readValue(configFile, PluginSettings.class);
+
+            MineStore.LOGGER.info("OOO: " + pluginSettings.getConnectionSettings().getConnectionMode());
         } catch (Exception e) {
-            //TODO: log this exception
+            e.printStackTrace();
         }
     }
 

@@ -1,14 +1,16 @@
 package it.vincenzopio.minestore.api.settings.store;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StoreSettings {
 
-    private final String address;
-    private final String apiKey;
+    private String address = "address";
+    @JsonProperty("api-key")
+    private String apiKey = "apikey";
 
-    public StoreSettings(String address, String apiKey) {
-        this.address = address;
-        this.apiKey = apiKey;
-    }
+
+    public StoreSettings() {}
+
 
     public String getAddress() {
         return address;

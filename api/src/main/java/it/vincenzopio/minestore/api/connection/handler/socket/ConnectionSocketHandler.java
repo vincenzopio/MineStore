@@ -32,7 +32,7 @@ public class ConnectionSocketHandler implements ConnectionHandler {
 
     @Override
     public void connect() {
-        int port = 0;
+        int port = mineStore.getSettingsService().getPluginSettings().getConnectionSettings().getSocketConfig().getPort();
         try {
             serverBootstrap.bind(port).sync();
         } catch (Exception ex) {

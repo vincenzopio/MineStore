@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.0" apply true
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
@@ -10,8 +11,10 @@ version '1.0.0'
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.github.johnrengelman.shadow'
 
-    archivesBaseName  = 'MineStore-' + project.name.capitalize()
     version = '1.0.0'
 
     jar {
@@ -20,4 +23,16 @@ subprojects {
             configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
         }
     }
+
+    shadowJar {
+        zip64 true
+
+
+        archiveName(this.name + "-" + project.name.capitalize() + "-" + this.version + ".jar")
+
+        relocate 'net.kyori', 'it.vincenzopio.minestore.shade.kyori'
+        relocate 'org.yaml.snakeyaml', 'it.vincenzopio.minestore.shade.snakeyaml'
+        relocate 'com.fasterxml.jackson', 'it.vincenzopio.minestore.shade.fasterxml'
+    }
+
 }
