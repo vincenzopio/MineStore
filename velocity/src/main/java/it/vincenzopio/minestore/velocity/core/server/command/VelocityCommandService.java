@@ -50,7 +50,6 @@ public class VelocityCommandService extends CommandService {
 
         commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
 
-
         ONLINE_COMMANDS.remove(player.getUsername());
 
         saveCache();

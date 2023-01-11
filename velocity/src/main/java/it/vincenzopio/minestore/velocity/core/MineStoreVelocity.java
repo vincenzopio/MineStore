@@ -33,7 +33,6 @@ public class MineStoreVelocity extends MineStore<Object, ProxyServer> {
         this.commandService = new VelocityCommandService(this);
         this.commandService.load();
 
-
     }
 
     @Override
@@ -44,11 +43,6 @@ public class MineStoreVelocity extends MineStore<Object, ProxyServer> {
     @Override
     public void forceShutdown() {
         System.exit(0);
-    }
-
-    @Override
-    public SettingsService getSettingsService() {
-        return null;
     }
 
     @Override
@@ -68,6 +62,6 @@ public class MineStoreVelocity extends MineStore<Object, ProxyServer> {
 
     @Override
     public InputStream getResource(String fileName) {
-        return null;
+        return pluginInstance.getClass().getClassLoader().getResourceAsStream("config.yml");
     }
 }

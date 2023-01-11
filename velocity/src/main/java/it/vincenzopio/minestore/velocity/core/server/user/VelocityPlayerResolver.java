@@ -20,6 +20,5 @@ public class VelocityPlayerResolver implements PlayerResolver {
     @Override
     public void sendChatMessage(String username, Component component) {
         proxyServer.getPlayer(username).ifPresent(player -> player.sendMessage(component));
-
     }
 }
