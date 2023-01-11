@@ -22,6 +22,8 @@ public class MineStoreSpigot extends MineStore<JavaPlugin, Server> {
 
     public MineStoreSpigot(JavaPlugin javaPlugin) {
         super(javaPlugin, Platform.SPIGOT, javaPlugin.getServer(), javaPlugin.getDataFolder());
+
+        LOGGER = javaPlugin.getLogger();
     }
 
 

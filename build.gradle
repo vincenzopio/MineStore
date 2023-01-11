@@ -2,18 +2,22 @@ plugins {
     id 'java'
 }
 
-group 'it.coralmc'
-version '1.0-SNAPSHOT'
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
-repositories {
-    mavenCentral()
-}
+group 'it.vincenzopio.minestore'
+version '1.0.0'
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
 
-test {
-    useJUnitPlatform()
+subprojects {
+    apply plugin: 'java'
+
+    archivesBaseName  = 'MineStore-' + project.name.capitalize()
+    version = '1.0.0'
+
+    jar {
+        duplicatesStrategy DuplicatesStrategy.EXCLUDE
+        from {
+            configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        }
+    }
 }

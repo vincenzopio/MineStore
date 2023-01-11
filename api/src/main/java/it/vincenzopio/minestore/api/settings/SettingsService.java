@@ -22,12 +22,16 @@ public class SettingsService extends Service {
     protected void onLoad() {
         File dataFolder = mineStore.getDataFolder();
 
+        if(!dataFolder.exists())
+            dataFolder.mkdirs();
+
+
         File configFile = new File(dataFolder, "config.yml");
 
         try {
             if (!configFile.exists()) {
                 MineStore.LOGGER.info("No config file found, copying default.");
-                Files.copy(mineStore.getResource("config.yml"), dataFolder.toPath());
+                Files.copy(mineStore.getResource("config.yml"), configFile.toPath());
                 MineStore.LOGGER.info("Please setup your configuration file, then restart!");
                 mineStore.forceShutdown();
 
@@ -36,7 +40,7 @@ public class SettingsService extends Service {
 
             pluginSettings = YAML.load(new FileInputStream(configFile));
         } catch (Exception e) {
-
+            //TODO: log this exception
         }
     }
 

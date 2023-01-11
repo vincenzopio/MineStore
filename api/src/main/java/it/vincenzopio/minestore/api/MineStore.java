@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public abstract class MineStore<G, T> {
 
-    public static final Logger LOGGER = LogManager.getLogManager().getLogger("MineStore");
+    public static Logger LOGGER = LogManager.getLogManager().getLogger("MineStore");
 
     protected final G pluginInstance;
     protected final Platform platform;
