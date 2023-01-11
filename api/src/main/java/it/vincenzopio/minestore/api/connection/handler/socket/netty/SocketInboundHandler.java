@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import it.vincenzopio.minestore.api.MineStore;
 import it.vincenzopio.minestore.api.connection.handler.socket.netty.message.SocketMessage;
+import it.vincenzopio.minestore.api.server.command.CommandExecution;
 import it.vincenzopio.minestore.api.server.command.CommandService;
 
 public class SocketInboundHandler extends SimpleChannelInboundHandler<String> {
@@ -37,7 +38,7 @@ public class SocketInboundHandler extends SimpleChannelInboundHandler<String> {
                 return;
             }
 
-            commandService.dispatchOnJoin(username, command);
+            commandService.dispatchOnJoin(username, new CommandExecution(username, command, () -> {}));
             return;
         }
 

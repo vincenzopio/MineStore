@@ -1,6 +1,7 @@
 package it.vincenzopio.minestore.spigot.core.server.command;
 
 import it.vincenzopio.minestore.api.MineStore;
+import it.vincenzopio.minestore.api.server.command.CommandExecution;
 import it.vincenzopio.minestore.api.server.command.CommandService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class SpigotCommandService extends CommandService implements Listener {
 
-    private final Map<String, List<String>> playerCommands = new HashMap<>();
+    private final Map<String, List<CommandExecution>> playerCommands = new HashMap<>();
 
     private final JavaPlugin javaPlugin;
 
@@ -43,7 +44,7 @@ public class SpigotCommandService extends CommandService implements Listener {
     }
 
     @Override
-    public void dispatchOnJoin(String username, String command) {
+    public void dispatchOnJoin(String username, CommandExecution command) {
         playerCommands.computeIfAbsent(username, u -> new ArrayList<>()).add(command);
     }
 
@@ -53,8 +54,11 @@ public class SpigotCommandService extends CommandService implements Listener {
 
         if (!playerCommands.containsKey(player.getName())) return;
 
-        List<String> commands = playerCommands.get(player.getName());
+        List<CommandExecution> commands = playerCommands.get(player.getName());
 
-        commands.forEach(this::dispatchCommand);
+        commands.forEach(commandExecution -> {
+            dispatchCommand(commandExecution.getCommand());
+            commandExecution.onExecute().run();
+        });
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.vincenzopio.minestore.api.MineStore;
 import it.vincenzopio.minestore.api.connection.handler.ConnectionHandler;
 import it.vincenzopio.minestore.api.connection.handler.listener.message.ListenerMessage;
+import it.vincenzopio.minestore.api.server.command.CommandExecution;
 import it.vincenzopio.minestore.api.server.command.CommandService;
 import it.vincenzopio.minestore.api.settings.connection.mode.listener.ListenerSettings;
 import it.vincenzopio.minestore.api.settings.store.StoreSettings;
@@ -65,35 +66,33 @@ public class ConnectionListenerHandler implements ConnectionHandler {
                 }
 
                 String command = message.getCommand().replaceFirst("/", "").replaceFirst(" {3}", " ");
-
                 String username = message.getUsername();
 
+
+                int id = message.getId();
+
                 MineStore.LOGGER.info("Found " + username + " command: " + command);
-
-
 
                 if (message.isRequiredOnline()) {
                     if (mineStore.getPlayerResolver().isOnline(username)) {
                         commandService.dispatchCommand(command);
-                        writeExecute(message.getId());
+                        writeExecute(id);
                         return;
                     }
 
-                    //commandService.dispatchOnJoin(username, command);
-                    //return;
+                    commandService.dispatchOnJoin(username, new CommandExecution(username, command, () -> writeExecute(id)));
+                    return;
                 }
 
                 commandService.dispatchCommand(command);
                 writeExecute(message.getId());
-
-               // commandService.dispatchCommand(command);
 
                 urlConnection.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        }, 10, 20);
+        }, 5, 10);
 
     }
 

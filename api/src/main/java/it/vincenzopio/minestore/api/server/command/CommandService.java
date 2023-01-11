@@ -11,7 +11,7 @@ public abstract class CommandService extends Service {
 
     public abstract void dispatchCommand(String command);
 
-    public abstract void dispatchOnJoin(String username, String command);
+    public abstract void dispatchOnJoin(String username, CommandExecution command);
 
 
 }
