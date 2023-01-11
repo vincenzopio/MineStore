@@ -35,7 +35,7 @@ public abstract class CommandService extends Service {
         try {
             if (!file.exists()) {
                 MineStore.LOGGER.info(file.createNewFile() ? "Created new empty online_cache.json file!" : "Could not create online_cache.json file!");
-            } else {
+            } else if (file.length() > 0) {
                 Map<String, List<CommandExecution>> value = MAPPER.readValue(file, typeReference);
 
                 for (Map.Entry<String, List<CommandExecution>> entry : value.entrySet()) {

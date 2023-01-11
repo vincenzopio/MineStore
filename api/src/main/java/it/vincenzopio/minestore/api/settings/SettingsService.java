@@ -39,8 +39,7 @@ public class SettingsService extends Service {
 
             MineStore.LOGGER.info("Loading configuration file...");
 
-            if (configFile.length() > 0)
-                pluginSettings = MAPPER.readValue(configFile, PluginSettings.class);
+            pluginSettings = MAPPER.readValue(configFile, PluginSettings.class);
 
             MineStore.LOGGER.info("OOO: " + pluginSettings.getConnectionSettings().getConnectionMode());
         } catch (Exception e) {

@@ -6,7 +6,6 @@ import it.vincenzopio.minestore.api.server.command.CommandService;
 import it.vincenzopio.minestore.api.server.platform.Platform;
 import it.vincenzopio.minestore.api.server.scheduler.TaskScheduler;
 import it.vincenzopio.minestore.api.server.user.PlayerResolver;
-import it.vincenzopio.minestore.api.settings.SettingsService;
 import it.vincenzopio.minestore.velocity.core.server.command.VelocityCommandService;
 import it.vincenzopio.minestore.velocity.core.server.task.VelocityTaskScheduler;
 import it.vincenzopio.minestore.velocity.core.server.user.VelocityPlayerResolver;
