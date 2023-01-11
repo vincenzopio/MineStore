@@ -9,7 +9,8 @@ public class StoreSettings {
     private String apiKey = "apikey";
 
 
-    public StoreSettings() {}
+    public StoreSettings() {
+    }
 
 
     public String getAddress() {

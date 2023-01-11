@@ -28,7 +28,7 @@ public class SocketInboundHandler extends SimpleChannelInboundHandler<String> {
         String username = socketMessage.getUsername();
         String command = socketMessage.getCommand().replaceFirst("/", "").replaceFirst(" {3}", " ");
 
-        if(!socketMessage.getPassword().equals(mineStore.getSettingsService().getPluginSettings().getConnectionSettings().getSocketConfig().getPassword())){
+        if (!socketMessage.getPassword().equals(mineStore.getSettingsService().getPluginSettings().getConnectionSettings().getSocketConfig().getPassword())) {
             return;
         }
 

@@ -2,8 +2,11 @@ package it.vincenzopio.minestore.api.server.command;
 
 public class CommandExecution {
 
-    public final String username;
-    private final String command;
+    public String username;
+    private String command;
+
+    public CommandExecution() {
+    }
 
     public CommandExecution(String username, String command) {
         this.username = username;

@@ -45,7 +45,7 @@ public class SpigotCommandService extends CommandService implements Listener {
 
         if (!ONLINE_COMMANDS.containsKey(player.getName())) return;
 
-        List<CommandExecution> commands =  ONLINE_COMMANDS.get(player.getName());
+        List<CommandExecution> commands = ONLINE_COMMANDS.get(player.getName());
 
         commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
 

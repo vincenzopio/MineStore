@@ -1,6 +1,5 @@
 package it.vincenzopio.minestore.api.settings.connection;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.vincenzopio.minestore.api.settings.connection.mode.ConnectionMode;
 import it.vincenzopio.minestore.api.settings.connection.mode.listener.ListenerSettings;
@@ -17,7 +16,8 @@ public class ConnectionSettings {
     @JsonProperty("listener")
     private ListenerSettings listenerSettings = new ListenerSettings();
 
-    public ConnectionSettings() {}
+    public ConnectionSettings() {
+    }
 
     public ConnectionMode getConnectionMode() {
         return connectionMode;

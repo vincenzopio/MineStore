@@ -1,6 +1,5 @@
 package it.vincenzopio.minestore.api.settings;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import it.vincenzopio.minestore.api.settings.connection.ConnectionSettings;
 import it.vincenzopio.minestore.api.settings.store.StoreSettings;
@@ -14,7 +13,8 @@ public class PluginSettings {
     @JsonProperty("store-connection")
     private ConnectionSettings connectionSettings = new ConnectionSettings();
 
-    public PluginSettings() {}
+    public PluginSettings() {
+    }
 
 
     public ConnectionSettings getConnectionSettings() {

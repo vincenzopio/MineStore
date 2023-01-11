@@ -67,7 +67,7 @@ public abstract class CommandService extends Service {
         saveCache();
     }
 
-    protected void saveCache(){
+    protected void saveCache() {
         try {
             MAPPER.writeValue(file, ONLINE_COMMANDS);
         } catch (IOException e) {

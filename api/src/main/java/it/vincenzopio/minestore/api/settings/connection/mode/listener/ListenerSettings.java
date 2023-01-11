@@ -1,6 +1,5 @@
 package it.vincenzopio.minestore.api.settings.connection.mode.listener;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ListenerSettings {
@@ -8,7 +7,8 @@ public class ListenerSettings {
     @JsonProperty("secret_key")
     private String secretKey = "secret_key";
 
-    public ListenerSettings() {}
+    public ListenerSettings() {
+    }
 
 
     public String getSecretKey() {

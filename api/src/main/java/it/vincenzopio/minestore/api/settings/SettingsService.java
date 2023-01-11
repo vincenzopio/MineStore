@@ -30,11 +30,11 @@ public class SettingsService extends Service {
 
         try {
             if (!configFile.exists()) {
-                 MineStore.LOGGER.info("No config file found, copying default.");
-                 Files.copy(mineStore.getResource("config.yml"), configFile.toPath());
-                 MineStore.LOGGER.info("Please setup your configuration file, then restart!");
-                 System.exit(0);
-                 return;
+                MineStore.LOGGER.info("No config file found, copying default.");
+                Files.copy(mineStore.getResource("config.yml"), configFile.toPath());
+                MineStore.LOGGER.info("Please setup your configuration file, then restart!");
+                System.exit(0);
+                return;
             }
 
             MineStore.LOGGER.info("Loading configuration file...");
