@@ -5,18 +5,9 @@ store-api:
   api-key: "store_api_key"
 
 store-connection:
-  mode: socket
+  mode: SOCKET
   socket:
     port: 33266
     password: "socket_password"
   listener:
     secret_key: "super_secret_key"
-
-database:
-  state: false
-  sql:
-    ip: "localhost"
-    port: 3306
-    username: "root"
-    password: ""
-    database: "minestore"

@@ -2,11 +2,30 @@ plugins {
     id 'java'
 }
 
-group 'it.vincenzopio.minestore'
+group 'it.vincenzopio.minestore.spigot'
 
 repositories {
     mavenCentral()
+
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+
+        // As of Gradle 5.1, you can limit this to only those
+        // dependencies you expect from it
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
+        }
+    }
+
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
 }
 
 dependencies {
+    implementation project(':api')
+
+    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+
+    implementation 'net.kyori:adventure-platform-bukkit:4.2.0'
 }
