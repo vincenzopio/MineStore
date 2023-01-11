@@ -14,11 +14,11 @@ public abstract class Service {
 
     protected abstract void onUnload();
 
-    public final void load() {
+    public void load() {
         onLoad();
     }
 
-    public final void unload() {
+    public void unload() {
         onUnload();
     }
 

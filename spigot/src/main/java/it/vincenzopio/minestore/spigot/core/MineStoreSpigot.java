@@ -30,7 +30,10 @@ public class MineStoreSpigot extends MineStore<JavaPlugin, Server> {
     @Override
     protected void onLoad() {
         this.taskScheduler = new SpigotTaskScheduler(pluginInstance);
+
         this.commandService = new SpigotCommandService(pluginInstance, this);
+        this.commandService.load();
+
         this.playerResolver = new SpigotPlayerResolver(pluginInstance);
 
 
@@ -38,7 +41,7 @@ public class MineStoreSpigot extends MineStore<JavaPlugin, Server> {
 
     @Override
     protected void onDisable() {
-
+        this.commandService.unload();
     }
 
     @Override

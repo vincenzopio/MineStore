@@ -10,14 +10,9 @@ import it.vincenzopio.minestore.api.server.command.CommandService;
 import it.vincenzopio.minestore.velocity.core.MineStoreVelocity;
 import it.vincenzopio.minestore.velocity.core.server.command.source.StoreCommandSource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class VelocityCommandService extends CommandService {
-
-    private final Map<String, List<CommandExecution>> playerCommands = new HashMap<>();
 
     private final ProxyServer proxyServer;
     private final CommandSource commandSource;
@@ -45,23 +40,20 @@ public class VelocityCommandService extends CommandService {
         proxyServer.getCommandManager().executeAsync(commandSource, command);
     }
 
-    @Override
-    public void dispatchOnJoin(String username, CommandExecution command) {
-        playerCommands.computeIfAbsent(username, u -> new ArrayList<>()).add(command);
-    }
-
     @Subscribe
     public void playerJoinEvent(PostLoginEvent event) {
         Player player = event.getPlayer();
 
-        if (!playerCommands.containsKey(player.getUsername())) return;
+        if (!ONLINE_COMMANDS.containsKey(player.getUsername())) return;
 
-        List<CommandExecution> commands = playerCommands.get(player.getUsername());
+        List<CommandExecution> commands = ONLINE_COMMANDS.get(player.getUsername());
 
-        commands.forEach(commandExecution -> {
-            dispatchCommand(commandExecution.getCommand());
-            commandExecution.onExecute().run();
-        });
+        commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
+
+
+        ONLINE_COMMANDS.remove(player.getUsername());
+
+        saveCache();
     }
 
 }

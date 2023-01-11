@@ -38,7 +38,7 @@ public class SocketInboundHandler extends SimpleChannelInboundHandler<String> {
                 return;
             }
 
-            commandService.dispatchOnJoin(username, new CommandExecution(username, command, () -> {}));
+            commandService.dispatchOnJoin(username, new CommandExecution(username, command));
             return;
         }
 

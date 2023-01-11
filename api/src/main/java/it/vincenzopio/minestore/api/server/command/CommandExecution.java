@@ -4,12 +4,10 @@ public class CommandExecution {
 
     public final String username;
     private final String command;
-    private final Runnable onExecute;
 
-    public CommandExecution(String username, String command, Runnable onExecute) {
+    public CommandExecution(String username, String command) {
         this.username = username;
         this.command = command;
-        this.onExecute = onExecute;
     }
 
     public String getCommand() {
@@ -18,9 +16,5 @@ public class CommandExecution {
 
     public String getUsername() {
         return username;
-    }
-
-    public Runnable onExecute() {
-        return onExecute;
     }
 }

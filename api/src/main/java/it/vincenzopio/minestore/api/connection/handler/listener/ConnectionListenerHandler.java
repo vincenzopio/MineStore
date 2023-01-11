@@ -73,19 +73,19 @@ public class ConnectionListenerHandler implements ConnectionHandler {
 
                 MineStore.LOGGER.info("Found " + username + " command: " + command);
 
+                writeExecute(id);
+
                 if (message.isRequiredOnline()) {
                     if (mineStore.getPlayerResolver().isOnline(username)) {
                         commandService.dispatchCommand(command);
-                        writeExecute(id);
                         return;
                     }
 
-                    commandService.dispatchOnJoin(username, new CommandExecution(username, command, () -> writeExecute(id)));
+                    commandService.dispatchOnJoin(username, new CommandExecution(username, command));
                     return;
                 }
 
                 commandService.dispatchCommand(command);
-                writeExecute(message.getId());
 
                 urlConnection.disconnect();
             } catch (Exception e) {

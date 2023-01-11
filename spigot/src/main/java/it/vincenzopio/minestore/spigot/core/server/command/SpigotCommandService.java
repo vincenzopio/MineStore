@@ -10,14 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SpigotCommandService extends CommandService implements Listener {
 
-    private final Map<String, List<CommandExecution>> playerCommands = new HashMap<>();
 
     private final JavaPlugin javaPlugin;
 
@@ -43,22 +39,18 @@ public class SpigotCommandService extends CommandService implements Listener {
         javaPlugin.getServer().getScheduler().runTask(javaPlugin, () -> javaPlugin.getServer().dispatchCommand(javaPlugin.getServer().getConsoleSender(), command));
     }
 
-    @Override
-    public void dispatchOnJoin(String username, CommandExecution command) {
-        playerCommands.computeIfAbsent(username, u -> new ArrayList<>()).add(command);
-    }
-
     @EventHandler
     public void playerJoinEvent(PlayerLoginEvent event) {
         Player player = event.getPlayer();
 
-        if (!playerCommands.containsKey(player.getName())) return;
+        if (!ONLINE_COMMANDS.containsKey(player.getName())) return;
 
-        List<CommandExecution> commands = playerCommands.get(player.getName());
+        List<CommandExecution> commands =  ONLINE_COMMANDS.get(player.getName());
 
-        commands.forEach(commandExecution -> {
-            dispatchCommand(commandExecution.getCommand());
-            commandExecution.onExecute().run();
-        });
+        commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
+
+        ONLINE_COMMANDS.remove(player.getName());
+
+        saveCache();
     }
 }
