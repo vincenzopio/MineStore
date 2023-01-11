@@ -30,6 +30,6 @@ public class SpigotTaskScheduler implements TaskScheduler {
 
     @Override
     public int asyncTimer(Runnable task, int time, int delay) {
-        return bukkitScheduler.runTaskTimerAsynchronously(javaPlugin, task, Duration.ofSeconds(delay).toMillis(), Duration.ofSeconds(time).toMillis()).getTaskId();
+        return bukkitScheduler.runTaskTimerAsynchronously(javaPlugin, task, delay * 20, time * 20).getTaskId();
     }
 }

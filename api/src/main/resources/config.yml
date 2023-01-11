@@ -4,8 +4,9 @@ store-api:
   address: "https://minestore.com/api/"
   api-key: "store_api_key"
 
+#I suggest using "LISTENER" instead of "SOCKET" since ports must be open.
 store-connection:
-  mode: SOCKET
+  mode: LISTENER
   socket:
     port: 33266
     password: "socket_password"

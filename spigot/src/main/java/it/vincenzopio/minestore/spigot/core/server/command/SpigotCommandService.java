@@ -39,7 +39,7 @@ public class SpigotCommandService extends CommandService implements Listener {
 
     @Override
     public void dispatchCommand(String command) {
-        javaPlugin.getServer().dispatchCommand(javaPlugin.getServer().getConsoleSender(), command);
+        javaPlugin.getServer().getScheduler().runTask(javaPlugin, () -> javaPlugin.getServer().dispatchCommand(javaPlugin.getServer().getConsoleSender(), command));
     }
 
     @Override

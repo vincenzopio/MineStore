@@ -41,6 +41,7 @@ public class ConnectionListenerHandler implements ConnectionHandler {
         String secretKey = listenerSettings.getSecretKey();
 
         mineStore.getTaskScheduler().asyncTimer(() -> {
+            MineStore.LOGGER.info("Fetching from store...");
             try {
                 URL url = new URL(storeUrl + "servers/" + secretKey + "/commands/queue");
                 HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
@@ -67,26 +68,32 @@ public class ConnectionListenerHandler implements ConnectionHandler {
 
                 String username = message.getUsername();
 
-                writeExecute(message.getId());
+                MineStore.LOGGER.info("Found " + username + " command: " + command);
+
+
 
                 if (message.isRequiredOnline()) {
                     if (mineStore.getPlayerResolver().isOnline(username)) {
                         commandService.dispatchCommand(command);
+                        writeExecute(message.getId());
                         return;
                     }
 
-                    commandService.dispatchOnJoin(username, command);
-                    return;
+                    //commandService.dispatchOnJoin(username, command);
+                    //return;
                 }
 
                 commandService.dispatchCommand(command);
+                writeExecute(message.getId());
+
+               // commandService.dispatchCommand(command);
 
                 urlConnection.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        }, 0, 10);
+        }, 10, 20);
 
     }
 
@@ -95,7 +102,7 @@ public class ConnectionListenerHandler implements ConnectionHandler {
         String secretKey = listenerSettings.getSecretKey();
 
         try {
-            URL url = new URL(storeUrl + "servers/" + secretKey + "/commands/executed" + id);
+            URL url = new URL(storeUrl + "servers/" + secretKey + "/commands/executed/" + id);
             HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");

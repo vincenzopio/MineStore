@@ -26,6 +26,8 @@ public class ConnectionService extends Service {
             connectionHandler = new ConnectionSocketHandler(mineStore);
 
 
+        MineStore.LOGGER.info("Connecting to " + mineStore.getSettingsService().getPluginSettings().getStoreSettings().getAddress() + " with method: " + connectionSettings.getConnectionMode());
+
         connectionHandler.connect();
     }
 
