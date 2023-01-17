@@ -1,0 +1,18 @@
+allow-menu: true
+disallow-message: "The menu is not available, report this to an Administrator."
+
+name: "&c&lOUR MAGIC STORE"
+url: "https://store.myserver.com/"
+message: "You can buy this item on our store: {url}"
+
+default:
+  material: "CHEST"
+  description: "This is a very cool package."
+
+format:
+  name: "&a{name}"
+  price: "&aPrice: &f{price}"
+  description: "&a{description}"
+
+
+

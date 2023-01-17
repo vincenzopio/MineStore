@@ -1,27 +1,25 @@
 package it.vincenzopio.minestore.api.connection.handler.listener.message;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ListenerMessage {
 
-    @SerializedName("type")
-    @Expose
+    @JsonProperty("type")
     private String type;
 
-    @SerializedName("auth_id")
+    @JsonProperty("auth_id")
     private String authId;
 
-    @SerializedName("id")
+    @JsonProperty("id")
     private int id;
 
-    @SerializedName("username")
+    @JsonProperty("username")
     private String username;
 
-    @SerializedName("command")
+    @JsonProperty("command")
     private String command;
 
-    @SerializedName("is_online_required")
+    @JsonProperty("is_online_required")
     private boolean requireOnline;
 
     public String getCommand() {

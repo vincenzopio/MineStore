@@ -4,15 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import it.vincenzopio.minestore.api.MineStore;
 import it.vincenzopio.minestore.api.service.Service;
+import it.vincenzopio.minestore.api.settings.menu.MenuSettings;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.util.logging.Level;
 
 public class SettingsService extends Service {
 
     public static final ObjectMapper MAPPER = new ObjectMapper(new YAMLFactory());
 
     private PluginSettings pluginSettings;
+    private MenuSettings menuSettings;
 
     public SettingsService(MineStore<?, ?> mineStore) {
         super(mineStore);
@@ -25,26 +29,36 @@ public class SettingsService extends Service {
         if (!dataFolder.exists())
             dataFolder.mkdirs();
 
-
-        File configFile = new File(dataFolder, "config.yml");
-
         try {
-            if (!configFile.exists()) {
-                MineStore.LOGGER.info("No config file found, copying default.");
-                Files.copy(mineStore.getResource("config.yml"), configFile.toPath());
+            pluginSettings = readFromFile(dataFolder, "config", PluginSettings.class, true);
+
+            if(mineStore.getPlatform().hasMenuSupport())
+                menuSettings = readFromFile(dataFolder, "config", MenuSettings.class, true);
+
+        }catch (Exception e){
+            MineStore.LOGGER.log(Level.SEVERE, "Could not load configuration file, shutting down.", e);
+            mineStore.forceShutdown();
+        }
+    }
+
+    protected <T> T readFromFile(File dataFolder, String configName, Class<T> objectClass, boolean shutdown) throws IOException {
+        File configFile = new File(dataFolder, configName + ".yml");
+
+        if (!configFile.exists()) {
+            MineStore.LOGGER.info("No config file found, copying default.");
+            Files.copy(mineStore.getResource(configName + ".yml"), configFile.toPath());
+
+            if (shutdown) {
                 MineStore.LOGGER.info("Please setup your configuration file, then restart!");
                 System.exit(0);
-                return;
             }
 
-            MineStore.LOGGER.info("Loading configuration file...");
-
-            pluginSettings = MAPPER.readValue(configFile, PluginSettings.class);
-
-            MineStore.LOGGER.info("OOO: " + pluginSettings.getConnectionSettings().getConnectionMode());
-        } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
+
+        MineStore.LOGGER.info("Loading configuration file...");
+
+        return MAPPER.readValue(configFile, objectClass);
     }
 
     @Override
@@ -54,5 +68,9 @@ public class SettingsService extends Service {
 
     public PluginSettings getPluginSettings() {
         return pluginSettings;
+    }
+
+    public MenuSettings getMenuSettings() {
+        return menuSettings;
     }
 }

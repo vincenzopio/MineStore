@@ -5,7 +5,7 @@ import it.vincenzopio.minestore.api.server.command.CommandService;
 import it.vincenzopio.minestore.api.server.platform.Platform;
 import it.vincenzopio.minestore.api.server.scheduler.TaskScheduler;
 import it.vincenzopio.minestore.api.server.user.PlayerResolver;
-import it.vincenzopio.minestore.spigot.core.server.command.SpigotCommandService;
+import it.vincenzopio.minestore.spigot.core.server.store.command.SpigotCommandService;
 import it.vincenzopio.minestore.spigot.core.server.task.SpigotTaskScheduler;
 import it.vincenzopio.minestore.spigot.core.server.user.SpigotPlayerResolver;
 import org.bukkit.Server;

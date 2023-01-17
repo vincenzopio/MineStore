@@ -13,8 +13,8 @@ public class StoreSettings {
     }
 
 
-    public String getAddress() {
-        return address;
+    public String getApiAddress() {
+        return address.endsWith("/") ? address : address + "/";
     }
 
     public String getApiKey() {

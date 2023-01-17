@@ -1,19 +1,19 @@
 package it.vincenzopio.minestore.api.connection.handler.socket.netty.message;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SocketMessage {
 
-    @SerializedName("username")
+    @JsonProperty("username")
     private String username;
 
-    @SerializedName("password")
+    @JsonProperty("password")
     private String password;
 
-    @SerializedName("command")
+    @JsonProperty("command")
     private String command;
 
-    @SerializedName("is_online_required")
+    @JsonProperty("is_online_required")
     private boolean requireOnline;
 
 

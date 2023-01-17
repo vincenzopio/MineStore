@@ -1,4 +1,4 @@
-package it.vincenzopio.minestore.spigot.core.server.command;
+package it.vincenzopio.minestore.spigot.core.server.store.command;
 
 import it.vincenzopio.minestore.api.MineStore;
 import it.vincenzopio.minestore.api.server.command.CommandExecution;

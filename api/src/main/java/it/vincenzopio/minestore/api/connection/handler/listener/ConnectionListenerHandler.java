@@ -1,7 +1,6 @@
 package it.vincenzopio.minestore.api.connection.handler.listener;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.vincenzopio.minestore.api.MineStore;
 import it.vincenzopio.minestore.api.connection.handler.ConnectionHandler;
 import it.vincenzopio.minestore.api.connection.handler.listener.message.ListenerMessage;
@@ -11,16 +10,12 @@ import it.vincenzopio.minestore.api.settings.connection.mode.listener.ListenerSe
 import it.vincenzopio.minestore.api.settings.store.StoreSettings;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 
 public class ConnectionListenerHandler implements ConnectionHandler {
 
-    private static final Gson GSON = new GsonBuilder().create();
-
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     private final MineStore<?, ?> mineStore;
 
@@ -38,24 +33,15 @@ public class ConnectionListenerHandler implements ConnectionHandler {
 
     @Override
     public void connect() {
-        String storeUrl = storeSettings.getAddress();
+        String storeUrl = storeSettings.getApiAddress();
         String secretKey = listenerSettings.getSecretKey();
 
         mineStore.getTaskScheduler().asyncTimer(() -> {
             MineStore.LOGGER.info("Fetching from store...");
             try {
                 URL url = new URL(storeUrl + "servers/" + secretKey + "/commands/queue");
-                HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-                InputStream stream = urlConnection.getInputStream();
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
-                ListenerMessage message = null;
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    message = GSON.fromJson(line, ListenerMessage.class);
-                }
+                ListenerMessage message = OBJECT_MAPPER.readValue(url, ListenerMessage.class);
 
                 if (message == null) {
                     return;
@@ -86,8 +72,6 @@ public class ConnectionListenerHandler implements ConnectionHandler {
                 }
 
                 commandService.dispatchCommand(command);
-
-                urlConnection.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -97,18 +81,19 @@ public class ConnectionListenerHandler implements ConnectionHandler {
     }
 
     public void writeExecute(int id) {
-        String storeUrl = storeSettings.getAddress();
+        String storeUrl = storeSettings.getApiAddress();
         String secretKey = listenerSettings.getSecretKey();
 
         try {
             URL url = new URL(storeUrl + "servers/" + secretKey + "/commands/executed/" + id);
             HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0");
             urlConnection.setDoOutput(true);
 
-            try (final OutputStream os = urlConnection.getOutputStream()) {
+            try (OutputStream os = urlConnection.getOutputStream()) {
                 os.write(id);
             }
 

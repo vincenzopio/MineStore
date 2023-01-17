@@ -1,7 +1,7 @@
 #MineStore by @vincenzopio
 
 store-api:
-  address: "https://minestore.com/api/"
+  address: "https://store.myserver.com/api/"
   api-key: "store_api_key"
 
 #I suggest using "LISTENER" instead of "SOCKET" since ports must be open.

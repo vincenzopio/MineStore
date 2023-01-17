@@ -32,7 +32,7 @@ subprojects {
 
         relocate 'net.kyori', 'it.vincenzopio.minestore.shade.kyori'
         relocate 'org.yaml.snakeyaml', 'it.vincenzopio.minestore.shade.snakeyaml'
-        relocate 'com.fasterxml.jackson', 'it.vincenzopio.minestore.shade.fasterxml'
+        relocate 'com.fasterxml.jackson', 'it.vincenzopio.minestore.shade.jackson'
     }
 
 }
