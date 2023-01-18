@@ -32,6 +32,7 @@ subprojects {
 
         archiveName(this.name + "-" + project.name.capitalize() + "-" + this.version + ".jar")
 
+        relocate 'fr.minuskube', 'it.vincenzopio.minestore.shade.smartinv'
         relocate 'net.kyori', 'it.vincenzopio.minestore.shade.kyori'
         relocate 'org.yaml.snakeyaml', 'it.vincenzopio.minestore.shade.snakeyaml'
         relocate 'com.fasterxml.jackson', 'it.vincenzopio.minestore.shade.jackson'

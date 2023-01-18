@@ -1,13 +1,13 @@
 package it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.items.packages;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.items.MenuItem;
 
 public class SubCategoryItem implements MenuItem {
 
     private String name;
     private String url;
-    @SerializedName("gui_item_id")
+    @JsonProperty("gui_item_id")
     private String itemMaterial;
 
     @Override

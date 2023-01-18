@@ -76,8 +76,7 @@ public class ConnectionListenerHandler implements ConnectionHandler {
                 e.printStackTrace();
             }
 
-        }, 5, 10);
-
+        }, 5, listenerSettings.getUpdateDelay());
     }
 
     public void writeExecute(int id) {

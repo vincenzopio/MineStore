@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StoreSettings {
 
+    @JsonProperty("address")
     private String address = "address";
     @JsonProperty("api-key")
     private String apiKey = "apikey";
-
 
     public StoreSettings() {
     }

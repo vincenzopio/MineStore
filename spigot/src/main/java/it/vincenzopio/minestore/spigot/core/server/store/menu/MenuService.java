@@ -27,7 +27,6 @@ public class MenuService extends Service {
 
     private final MineStoreSpigot mineStoreSpigot;
     private final MenuSettings menuSettings;
-
     private InventoryManager inventoryManager;
 
     private boolean updating = false;
@@ -75,17 +74,19 @@ public class MenuService extends Service {
 
 
         mineStore.getTaskScheduler().asyncTimer(() -> {
-            MineStoreSpigot.LOGGER.info("Updating packages...");
+            MineStore.LOGGER.info("Updating packages...");
 
             updating = true;
 
             StoreSettings storeSettings = mineStoreSpigot.getSettingsService().getPluginSettings().getStoreSettings();
 
             try {
-                URL url = new URL(storeSettings.getApiAddress() + "api/" + (menuSettings.isAuthRequired() ? storeSettings.getApiKey() + "/" : "") + "gui/packages_new");
+                URL url = new URL(mineStore.getSettingsService().getPluginSettings().getStoreSettings().getApiAddress() + (menuSettings.isAuthRequired() ? storeSettings.getApiKey() + "/" : "") + "gui/packages_new");
+
+                MineStore.LOGGER.info("Fetching packages from Store: " + url.getPath());
 
                 ObjectMapper objectMapper = new ObjectMapper();
-                TypeReference<List<CategoryItem>> type = new TypeReference<>() {
+                TypeReference<List<CategoryItem>> type = new TypeReference<List<CategoryItem>>() {
                 };
 
                 List<CategoryItem> updated = objectMapper.readValue(url, type);
@@ -97,12 +98,11 @@ public class MenuService extends Service {
             }
 
             updating = false;
-        }, 1000, 2);
+        }, 1000, 1);
     }
 
     @Override
     protected void onUnload() {
-
     }
 
     public InventoryManager getInventoryManager() {

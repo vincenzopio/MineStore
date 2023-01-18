@@ -10,10 +10,10 @@ default:
   material: "CHEST"
   description: "This is a very cool package."
 
-page:
-  back: "Go back!"
-  next: "Next page: %page"
-  previous: "Previous page: %page%"
+pagination:
+  back-item: "Go back!"
+  next-page-item: "Next page: %next_page%"
+  previous-page-item: "Previous page: %prev_page%"
 
 format:
   name: "&a%name%"

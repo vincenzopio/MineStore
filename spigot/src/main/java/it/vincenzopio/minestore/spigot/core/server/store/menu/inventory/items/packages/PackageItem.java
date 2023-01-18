@@ -1,6 +1,6 @@
 package it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.items.packages;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.items.MenuItem;
 
 public class PackageItem implements MenuItem {
@@ -8,15 +8,15 @@ public class PackageItem implements MenuItem {
     private String name;
     private int price;
     private int discount;
-    @SerializedName("sorting")
+    @JsonProperty("sorting")
     private int sort;
-    @SerializedName("category_url")
+    @JsonProperty("category_url")
     private String url;
     private int featured;
     private int active;
-    @SerializedName("item_id")
+    @JsonProperty("item_id")
     private String itemMaterial;
-    @SerializedName("item_lore")
+    @JsonProperty("item_lore")
     private String itemLore;
 
     @Override

@@ -1,37 +1,44 @@
 package it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.sub;
 
 import fr.minuskube.inv.ClickableItem;
+import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
-import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.content.Pagination;
 import fr.minuskube.inv.content.SlotIterator;
 import it.vincenzopio.minestore.api.settings.menu.sub.MenuFormatSettings;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.MenuService;
+import it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.StoreInventory;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.items.CategoryItem;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.items.packages.PackageItem;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.inventory.items.packages.SubCategoryItem;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.utils.ItemBuilder;
+import it.vincenzopio.minestore.spigot.core.server.store.menu.utils.MaterialUtils;
 import it.vincenzopio.minestore.spigot.core.server.store.menu.utils.MessageFormatter;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class CategoryInventory implements InventoryProvider {
+public class CategoryInventory implements StoreInventory {
 
+
+    private final SmartInventory comingFrom;
     private final MenuService menuService;
     private final MenuFormatSettings menuSettings;
     private final CategoryItem categoryItem;
 
     private final Material defaultMaterial;
 
-    public CategoryInventory(MenuService menuService, CategoryItem categoryItem) {
+    public CategoryInventory(SmartInventory comingFrom, MenuService menuService, CategoryItem categoryItem) {
+        this.comingFrom = comingFrom;
         this.menuService = menuService;
         this.menuSettings = menuService.getMenuSettings().getFormatSettings();
-        this.defaultMaterial = Objects.requireNonNullElse(Material.valueOf(menuService.getMenuSettings().getBaseValues().getMaterial()), Material.CHEST);
+        this.defaultMaterial = Optional.of(Material.valueOf(menuService.getMenuSettings().getBaseValues().getMaterial())).orElse(Material.CHEST);
         this.categoryItem = categoryItem;
     }
 
@@ -42,32 +49,61 @@ public class CategoryInventory implements InventoryProvider {
         List<ClickableItem> clickableItems = new ArrayList<>();
 
         for (SubCategoryItem subCategoryItem : categoryItem.getSubCategoryItems()) {
-            ItemBuilder itemBuilder = ItemBuilder.createItem(Objects.requireNonNullElse(Material.getMaterial(subCategoryItem.getItemMaterial()), defaultMaterial))
+            ItemBuilder itemBuilder = ItemBuilder.createItem(MaterialUtils.getSafeMaterial(subCategoryItem.getItemMaterial(), defaultMaterial))
                     .setName(MessageFormatter.formatter(menuSettings.getName())
                             .ampersand()
                             .format(subCategoryItem)
-                            .toString())
-                    .setLore(MessageFormatter.formatter(menuSettings.getDescription()).format(subCategoryItem).ampersand().toString());
-
+                            .toString());
 
             clickableItems.add(ClickableItem.of(itemBuilder.get(), event -> {
                 List<PackageItem> packageItems = Arrays.stream(categoryItem.getPackageItems())
                         .filter(packageItem -> packageItem.getURL().equalsIgnoreCase(subCategoryItem.getURL()))
-                        .toList();
+                        .collect(Collectors.toList());
 
-                // Packages Inventory
-
+                new PackagesInventory(getInventory(), menuService, packageItems).getInventory().open(player);
             }));
 
         }
 
-        pagination.setItemsPerPage(21);
-        pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, 1, 1).blacklist(3, 8));
+        pagination.setItems(clickableItems.toArray(new ClickableItem[0]))
+                .setItemsPerPage(18)
+                .addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, 0, 0));
+
+
+        //Go previous page
+        if (!pagination.isFirst()) {
+            contents.set(5, 0, ClickableItem.of(new ItemBuilder(Material.ARROW)
+                    .setName(MessageFormatter.formatter(menuService.getMenuSettings().getPaginationSettings().getPreviousPageMessage(), true).pagination(pagination).toString())
+                    .get(), event -> getInventory().open(player, pagination.getPage() - 1)));
+        }
+
+
+        //Go next page
+        if (!pagination.isLast())
+            contents.set(5, 8, ClickableItem.of(new ItemBuilder(Material.ARROW)
+                    .setName(MessageFormatter.formatter(menuService.getMenuSettings().getPaginationSettings().getNextPageMessage(), true).pagination(pagination).toString())
+                    .get(), event -> getInventory().open(player, pagination.getPage() + 1)));
+
+        addBackItem(contents, ClickableItem.of(new ItemBuilder(Material.ARROW)
+                .setName(MessageFormatter.formatter(menuService.getMenuSettings().getPaginationSettings().getBackMessage(), true).pagination(pagination).toString())
+                .get(), event -> {
+            if (comingFrom == null) {
+                player.closeInventory();
+                return;
+            }
+            comingFrom.open(player);
+        }));
 
     }
 
     @Override
-    public void update(Player player, InventoryContents contents) {
-
+    public SmartInventory getInventory() {
+        return SmartInventory.builder()
+                .provider(this)
+                .id("store_packages")
+                .manager(menuService.getInventoryManager())
+                .size(3, 9)
+                .title(ChatColor.DARK_GRAY + MessageFormatter.formatter(menuService.getMenuSettings().getName(), true).toString())
+                .build();
     }
 }

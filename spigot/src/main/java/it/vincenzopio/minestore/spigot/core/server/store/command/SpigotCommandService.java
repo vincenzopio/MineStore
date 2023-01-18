@@ -5,6 +5,7 @@ import it.vincenzopio.minestore.api.server.command.CommandExecution;
 import it.vincenzopio.minestore.api.server.command.CommandService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -39,18 +40,22 @@ public class SpigotCommandService extends CommandService implements Listener {
         javaPlugin.getServer().getScheduler().runTask(javaPlugin, () -> javaPlugin.getServer().dispatchCommand(javaPlugin.getServer().getConsoleSender(), command));
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void playerJoinEvent(PlayerLoginEvent event) {
         Player player = event.getPlayer();
 
         if (!ONLINE_COMMANDS.containsKey(player.getName())) return;
 
-        List<CommandExecution> commands = ONLINE_COMMANDS.get(player.getName());
+        javaPlugin.getServer().getScheduler().runTaskLaterAsynchronously(javaPlugin, () -> {
+            if (!player.isOnline()) return;
 
-        commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
+            List<CommandExecution> commands = ONLINE_COMMANDS.get(player.getName());
 
-        ONLINE_COMMANDS.remove(player.getName());
+            commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
 
-        saveCache();
+            ONLINE_COMMANDS.remove(player.getName());
+
+            saveCache();
+        }, 100);
     }
 }

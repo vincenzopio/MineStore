@@ -1,6 +1,7 @@
 package it.vincenzopio.minestore.velocity.core.server.command;
 
 import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.proxy.Player;
@@ -40,7 +41,7 @@ public class VelocityCommandService extends CommandService {
         proxyServer.getCommandManager().executeAsync(commandSource, command);
     }
 
-    @Subscribe
+    @Subscribe(order = PostOrder.LAST)
     public void playerJoinEvent(PostLoginEvent event) {
         Player player = event.getPlayer();
 

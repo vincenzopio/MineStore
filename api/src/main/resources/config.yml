@@ -12,3 +12,4 @@ store-connection:
     password: "socket_password"
   listener:
     secret_key: "super_secret_key"
+    update_delay: 5
