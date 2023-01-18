@@ -8,4 +8,4 @@ api-version: 1.12
 commands:
   shop:
     description: The store menu.
-    aliases: [store, buy]
+    aliases: [ store, buy ]

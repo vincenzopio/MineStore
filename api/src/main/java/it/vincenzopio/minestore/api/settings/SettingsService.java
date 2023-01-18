@@ -32,10 +32,10 @@ public class SettingsService extends Service {
         try {
             pluginSettings = readFromFile(dataFolder, "config", PluginSettings.class, true);
 
-            if(mineStore.getPlatform().hasMenuSupport())
+            if (mineStore.getPlatform().hasMenuSupport())
                 menuSettings = readFromFile(dataFolder, "config", MenuSettings.class, true);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             MineStore.LOGGER.log(Level.SEVERE, "Could not load configuration file, shutting down.", e);
             mineStore.forceShutdown();
         }

@@ -12,6 +12,9 @@ public class MenuSettings {
     @JsonProperty("disallow-message")
     private String disallowMessage;
 
+    @JsonProperty("api-auth")
+    private boolean authRequired;
+
     private String name;
 
     private String url;
@@ -27,6 +30,10 @@ public class MenuSettings {
 
     public boolean isAllowMenu() {
         return allowMenu;
+    }
+
+    public boolean isAuthRequired() {
+        return authRequired;
     }
 
     public String getDisallowMessage() {

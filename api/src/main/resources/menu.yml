@@ -1,18 +1,24 @@
 allow-menu: true
 disallow-message: "The menu is not available, report this to an Administrator."
+api-auth: true
 
 name: "&c&lOUR MAGIC STORE"
 url: "https://store.myserver.com/"
-message: "You can buy this item on our store: {url}"
+message: "You can buy this item on our store: %url%"
 
 default:
   material: "CHEST"
   description: "This is a very cool package."
 
+page:
+  back: "Go back!"
+  next: "Next page: %page"
+  previous: "Previous page: %page%"
+
 format:
-  name: "&a{name}"
-  price: "&aPrice: &f{price}"
-  description: "&a{description}"
+  name: "&a%name%"
+  price: "&aPrice: &f%price%"
+  description: "&a%description%"
 
 
 

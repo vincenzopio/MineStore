@@ -10,22 +10,34 @@ public class MessageFormatter implements Serializable {
     private String message;
 
 
-    private MessageFormatter(String message) {this.message = message;}
+    private MessageFormatter(String message) {
+        this.message = message;
+    }
 
-    public MessageFormatter ampersand(){
+    public static MessageFormatter formatter(String message) {
+        return new MessageFormatter(message);
+    }
+
+    public static MessageFormatter formatter(String message, boolean ampersand) {
+        MessageFormatter messageFormatter = new MessageFormatter(message);
+
+        return ampersand ? messageFormatter.ampersand() : messageFormatter;
+    }
+
+    public MessageFormatter ampersand() {
         message = ChatColor.translateAlternateColorCodes('&', message);
         return this;
 
     }
 
-    public MessageFormatter format(MenuItem menuItem){
+    public MessageFormatter format(MenuItem menuItem) {
         message = message.replaceAll("%name%", menuItem.getName())
                 .replaceAll("%price%", menuItem.getPrice() + "");
 
         return this;
     }
 
-    public MessageFormatter url(MenuItem menuItem, String baseUrl){
+    public MessageFormatter url(MenuItem menuItem, String baseUrl) {
         message = message.replaceAll("%url%", baseUrl + menuItem.getURL());
         return this;
     }
@@ -33,15 +45,5 @@ public class MessageFormatter implements Serializable {
     @Override
     public String toString() {
         return message;
-    }
-
-    public static MessageFormatter formatter(String message){
-        return new MessageFormatter(message);
-    }
-
-    public static MessageFormatter formatter(String message, boolean ampersand){
-        MessageFormatter messageFormatter = new MessageFormatter(message);
-
-        return ampersand ? messageFormatter.ampersand() : messageFormatter;
     }
 }

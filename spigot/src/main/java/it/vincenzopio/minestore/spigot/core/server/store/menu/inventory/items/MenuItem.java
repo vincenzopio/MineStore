@@ -9,11 +9,11 @@ public interface MenuItem {
     ItemType getType();
 
 
-    default boolean hasPrice(){
+    default boolean hasPrice() {
         return false;
     }
 
-    default int getPrice(){
+    default int getPrice() {
         return 0;
     }
 

@@ -17,6 +17,8 @@ subprojects {
 
     version = '1.0.0'
 
+    assemble.dependsOn(shadowJar)
+
     jar {
         duplicatesStrategy DuplicatesStrategy.EXCLUDE
         from {

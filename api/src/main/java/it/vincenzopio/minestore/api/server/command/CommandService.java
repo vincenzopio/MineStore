@@ -15,7 +15,8 @@ import java.util.Map;
 
 public abstract class CommandService extends Service {
 
-    protected static final TypeReference<Map<String, List<CommandExecution>>> typeReference = new TypeReference<>() {};
+    protected static final TypeReference<Map<String, List<CommandExecution>>> typeReference = new TypeReference<>() {
+    };
     protected static final Map<String, List<CommandExecution>> ONLINE_COMMANDS = new HashMap<>();
 
     protected static final ObjectMapper MAPPER = new ObjectMapper(new JsonFactory());
