@@ -12,6 +12,7 @@ import it.vincenzopio.minestore.velocity.core.MineStoreVelocity;
 import it.vincenzopio.minestore.velocity.core.server.command.source.StoreCommandSource;
 
 import java.util.List;
+import java.util.Locale;
 
 public class VelocityCommandService extends CommandService {
 
@@ -45,9 +46,11 @@ public class VelocityCommandService extends CommandService {
     public void playerJoinEvent(PostLoginEvent event) {
         Player player = event.getPlayer();
 
-        if (!ONLINE_COMMANDS.containsKey(player.getUsername())) return;
+        String playerName = player.getUsername().toLowerCase(Locale.ROOT);
 
-        List<CommandExecution> commands = ONLINE_COMMANDS.get(player.getUsername());
+        if (!ONLINE_COMMANDS.containsKey(playerName)) return;
+
+        List<CommandExecution> commands = ONLINE_COMMANDS.get(playerName);
 
         commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
 

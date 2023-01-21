@@ -1,4 +1,4 @@
-allow-menu: true
+allow-menu: false
 disallow-message: "The menu is not available, report this to an Administrator."
 api-auth: true
 

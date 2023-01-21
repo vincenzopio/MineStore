@@ -8,10 +8,7 @@ import it.vincenzopio.minestore.api.service.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class CommandService extends Service {
 
@@ -62,7 +59,7 @@ public abstract class CommandService extends Service {
 
 
     public void dispatchOnJoin(String username, CommandExecution command) {
-        ONLINE_COMMANDS.computeIfAbsent(username, u -> new ArrayList<>()).add(command);
+        ONLINE_COMMANDS.computeIfAbsent(username.toLowerCase(Locale.ROOT), u -> new ArrayList<>()).add(command);
 
         saveCache();
     }

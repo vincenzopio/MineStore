@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SpigotCommandService extends CommandService implements Listener {
 
@@ -44,12 +45,14 @@ public class SpigotCommandService extends CommandService implements Listener {
     public void playerJoinEvent(PlayerLoginEvent event) {
         Player player = event.getPlayer();
 
-        if (!ONLINE_COMMANDS.containsKey(player.getName())) return;
+        String playerName = event.getPlayer().getName().toLowerCase(Locale.ROOT);
+
+        if (!ONLINE_COMMANDS.containsKey(playerName)) return;
 
         javaPlugin.getServer().getScheduler().runTaskLaterAsynchronously(javaPlugin, () -> {
             if (!player.isOnline()) return;
 
-            List<CommandExecution> commands = ONLINE_COMMANDS.get(player.getName());
+            List<CommandExecution> commands = ONLINE_COMMANDS.get(playerName);
 
             commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
 
