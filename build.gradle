@@ -6,7 +6,7 @@ plugins {
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 group 'it.vincenzopio.minestore'
-version '1.0.0'
+version '1.0.1'
 
 
 subprojects {
@@ -15,7 +15,7 @@ subprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
 
-    version = '1.0.0'
+    version = rootProject.version
 
     assemble.dependsOn(shadowJar)
 

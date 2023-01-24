@@ -56,7 +56,7 @@ public class SpigotCommandService extends CommandService implements Listener {
 
             commands.forEach(commandExecution -> dispatchCommand(commandExecution.getCommand()));
 
-            ONLINE_COMMANDS.remove(player.getName());
+            ONLINE_COMMANDS.remove(playerName);
 
             saveCache();
         }, 100);

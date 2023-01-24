@@ -12,7 +12,7 @@ import it.vincenzopio.minestore.velocity.core.MineStoreVelocity;
 import java.io.File;
 import java.nio.file.Path;
 
-@Plugin(id = "minestore", name = "MineStore", version = "1.0.0", authors = "VincenzoPio")
+@Plugin(id = "minestore", name = "MineStore", version = "1.0.1", authors = "VincenzoPio")
 public class VelocityPlugin {
 
     private final ProxyServer proxyServer;
